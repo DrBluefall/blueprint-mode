@@ -3,13 +3,14 @@
 A GNU Emacs major mode for GTK+
 [Blueprint](https://gitlab.gnome.org/jwestman/blueprint-compiler) files.
 
-**NOTE**: This major mode is *very* incomplete. It doesn't even have syntax
-highlighting yet. If you're any better at Emacs and can understand the black
-magic that is `font-lock-mode`, please file a pull request.
+**NOTE**: This major mode is *very* incomplete. The syntax highlighting is far
+from done, and there are things that I want this mode to do that it has yet to
+(like formatting). I'm also *not that good at elisp*, so I welcome all the
+assistance I can get. - Dr. Bluefall
 
 # Usage
 
-With `straight.el`
+With `straight.el`:
 
 ``` emacs-lisp
 (straight-use-package
