@@ -19,7 +19,7 @@
 ;; Maintainer: Alexander Bisono <sbisonol@gmail.com>
 ;; Created: May 24, 2022
 ;; Modified: May 24, 2022
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Homepage: https://github.com/drbluefall/blueprint-mode
 ;; Package-Requires: ((emacs "24.3") (lsp-mode "8.0.0"))
 ;;
@@ -34,6 +34,27 @@
 (require 'lsp)
 
 (defvar blueprint--font-lock-defaults nil)
+(setq blueprint--font-lock-defaults
+  (let* (
+         ;; Define basic keywords
+         (bp-keywords '("accessibility" "attributes" "bind"
+                        "item" "layout" "menu" "section"
+                        "submenu" "swapped" "using" "template"))
+
+         (bp-constants '("start" "end" "false" "no" "yes" "true" "horizontal" "vertical"))
+
+         ;; turn those into regexes
+         (bp-keywords-regex (regexp-opt bp-keywords 'symbols))
+         (bp-constants-regex (regexp-opt bp-constants 'symbols))
+         ;; Define some custom ones
+         (bp-starting-dot "^\\.")
+         (bp-namespace-regex "\\(\\w*\\)\\.")
+         (bp-class-regex "\\.\\(\\w*\\)"))
+    `((,bp-keywords-regex . font-lock-keyword-face)
+      (,bp-starting-dot . font-lock-keyword-face)
+      (,bp-constants-regex . font-lock-constant-face)
+      (,bp-class-regex . '(1 font-lock-type-face))
+      (,bp-namespace-regex . '(1 font-lock-type-face)))))
 
 ;;;###autoload
 (define-derived-mode blueprint-mode prog-mode "Blueprint"
