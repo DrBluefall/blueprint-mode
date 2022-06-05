@@ -19,7 +19,7 @@
 ;; Maintainer: Alexander Bisono <sbisonol@gmail.com>
 ;; Created: May 24, 2022
 ;; Modified: May 24, 2022
-;; Version: 0.0.2
+;; Version: 0.1.0
 ;; Homepage: https://github.com/drbluefall/blueprint-mode
 ;; Package-Requires: ((emacs "24.3") (lsp-mode "8.0.0"))
 ;;
