@@ -3,10 +3,10 @@
 A GNU Emacs major mode for GTK+
 [Blueprint](https://gitlab.gnome.org/jwestman/blueprint-compiler) files.
 
-**NOTE**: This major mode is *very* incomplete. The syntax highlighting is far
-from done, and there are things that I want this mode to do that it has yet to
-(like formatting). I'm also *not that good at elisp*, so I welcome all the
-assistance I can get. - Dr. Bluefall
+**NOTE**: This major mode is in its early stages. The syntax highlighting is
+done (albeit rudimentary in this author's opinion), and there are probably many
+things that this mode could be extended to do. I'm also *not that good at
+elisp*, so I welcome all the assistance I can get. - Dr. Bluefall
 
 # Usage
 
