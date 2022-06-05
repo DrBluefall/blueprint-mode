@@ -44,8 +44,7 @@
 
         st))
 
-(defvar blueprint--font-lock-defaults nil)
-(setq blueprint--font-lock-defaults
+(defvar blueprint--font-lock-defaults
   (let* (
          ;; Define basic keywords
          (bp-keywords '("accessibility" "attributes" "bind"
