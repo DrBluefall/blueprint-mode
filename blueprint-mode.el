@@ -33,6 +33,17 @@
 
 (require 'lsp)
 
+
+(defvar blueprint-mode-syntax-table nil)
+(setq blueprint-mode-syntax-table
+      (let ((st (make-syntax-table prog-mode-syntax-table)))
+
+        ;; Treat underscores and dashes as part of symbols.
+        (modify-syntax-entry ?- "_" st)
+        (modify-syntax-entry ?- "_" st)
+
+        st))
+
 (defvar blueprint--font-lock-defaults nil)
 (setq blueprint--font-lock-defaults
   (let* (
@@ -48,18 +59,23 @@
          (bp-constants-regex (regexp-opt bp-constants 'symbols))
          ;; Define some custom ones
          (bp-starting-dot "^\\.")
-         (bp-namespace-regex "\\(\\w*\\)\\.")
-         (bp-class-regex "\\.\\(\\w*\\)"))
+         (bp-property-regex "[A-Za-z_-]+:\\|styles")
+         (bp-property-regex-alt "\\[[=A-Za-z_-]+\\]")
+         (bp-namespace-regex "\\(\\w+\\)\\.")
+         (bp-class-regex "[[:upper:]]\\w+"))
     `((,bp-keywords-regex . font-lock-keyword-face)
+      (,bp-property-regex . font-lock-variable-name-face)
+      (,bp-property-regex-alt . font-lock-variable-name-face)
       (,bp-starting-dot . font-lock-keyword-face)
       (,bp-constants-regex . font-lock-constant-face)
-      (,bp-class-regex . '(1 font-lock-type-face))
+      (,bp-class-regex . font-lock-type-face)
       (,bp-namespace-regex . '(1 font-lock-type-face)))))
 
 ;;;###autoload
 (define-derived-mode blueprint-mode prog-mode "Blueprint"
   "Major mode for Blueprint Compiler files."
-  (setq font-lock-defaults '(blueprint--font-lock-defaults)))
+  (setq-local font-lock-defaults '(blueprint--font-lock-defaults))
+  (set-syntax-table blueprint-mode-syntax-table))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.blp\\'" . blueprint-mode))
