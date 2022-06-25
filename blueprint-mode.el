@@ -19,7 +19,7 @@
 ;; Maintainer: Alexander Bisono <sbisonol@gmail.com>
 ;; Created: May 24, 2022
 ;; Modified: June 25, 2022
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Homepage: https://github.com/drbluefall/blueprint-mode
 ;; Package-Requires: ((emacs "24.3") (lsp-mode "8.0.0"))
 ;;
@@ -65,14 +65,20 @@
          (bp-constants-regex (regexp-opt bp-constants 'symbols))
          ;; Define some custom ones
          (bp-starting-dot "^\\.")
+         (bp-signal-arrow "=>")
+         (bp-signal-function-regex "\\([[:alnum:]:_-]+\\)()")
+         (bp-signal-name-regex "\\([[:alpha:]_-]+\\(::[[:alpha:]_-]+\\)?\\)[[:space:]]+=>")
          (bp-property-regex "[A-Za-z_-]+:\\|styles")
          (bp-property-regex-alt "\\[[=A-Za-z_-]+\\]")
          (bp-namespace-regex "\\(\\w+\\)\\.")
          (bp-class-regex "[[:upper:]]\\w+"))
     `((,bp-keywords-regex . font-lock-keyword-face)
+      (,bp-signal-function-regex . '(1 font-lock-function-name-face))
+      (,bp-signal-name-regex . '(1 font-lock-variable-name-face))
       (,bp-property-regex . font-lock-variable-name-face)
       (,bp-property-regex-alt . font-lock-variable-name-face)
       (,bp-starting-dot . font-lock-keyword-face)
+      (,bp-signal-arrow . font-lock-keyword-face)
       (,bp-constants-regex . font-lock-constant-face)
       (,bp-class-regex . font-lock-type-face)
       (,bp-namespace-regex . '(1 font-lock-type-face)))))
