@@ -18,8 +18,8 @@
 ;; Author: Alexander Bisono <sbisonol@gmail.com>
 ;; Maintainer: Alexander Bisono <sbisonol@gmail.com>
 ;; Created: May 24, 2022
-;; Modified: May 24, 2022
-;; Version: 0.1.0
+;; Modified: June 25, 2022
+;; Version: 0.1.1
 ;; Homepage: https://github.com/drbluefall/blueprint-mode
 ;; Package-Requires: ((emacs "24.3") (lsp-mode "8.0.0"))
 ;;
@@ -37,6 +37,12 @@
 (defvar blueprint-mode-syntax-table nil)
 (setq blueprint-mode-syntax-table
       (let ((st (make-syntax-table prog-mode-syntax-table)))
+
+        ;; Support C-style comments.
+        (modify-syntax-entry ?/  ". 124b" st)
+        (modify-syntax-entry ?*  ". 23"   st)
+        (modify-syntax-entry ?\n "> b"    st)
+        (modify-syntax-entry ?\^m "> b"   st)
 
         ;; Treat underscores and dashes as part of symbols.
         (modify-syntax-entry ?- "_" st)
