@@ -19,6 +19,17 @@ With `straight.el`:
                      :repo "DrBluefall/blueprint-mode"))
 ```
 
+# Contributing
+
+If you want to work on `blueprint-mode`, I advise that you clone 2 additional
+repositories:
+
+- [`blueprint-compiler`](https://gitlab.gnome.org/jwestman/blueprint-compiler)
+- and [`blueprint-regression-tests`](https://gitlab.gnome.org/jwestman/blueprint-regression-tests)
+
+The latter has blueprint files from projects in the wild, which could prove
+useful for testing any features you intend to implement in `blueprint-mode`.
+
 # LICENSE
 
 Copyright (C) 2022 Alexander Bisono.
