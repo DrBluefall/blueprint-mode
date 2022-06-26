@@ -52,36 +52,36 @@
 
 (defvar blueprint--font-lock-defaults nil)
 (setq blueprint--font-lock-defaults
-  (let* (
-         ;; Define basic keywords
-         (bp-keywords '("accessibility" "attributes" "bind"
-                        "item" "layout" "menu" "section"
-                        "submenu" "swapped" "using" "template"))
+      (let* (
+             ;; Define basic keywords
+             (bp-keywords '("accessibility" "attributes" "bind"
+                            "item" "layout" "menu" "section"
+                            "submenu" "swapped" "using" "template"))
 
-         (bp-constants '("start" "end" "false" "no" "yes" "true" "horizontal" "vertical"))
+             (bp-constants '("start" "end" "false" "no" "yes" "true" "horizontal" "vertical"))
 
-         ;; turn those into regexes
-         (bp-keywords-regex (regexp-opt bp-keywords 'symbols))
-         (bp-constants-regex (regexp-opt bp-constants 'symbols))
-         ;; Define some custom ones
-         (bp-starting-dot "^\\.")
-         (bp-signal-arrow "=>")
-         (bp-signal-function-regex "\\([[:alnum:]:_-]+\\)()")
-         (bp-signal-name-regex "\\([[:alpha:]_-]+\\(::[[:alpha:]_-]+\\)?\\)[[:space:]]+=>")
-         (bp-property-regex "[A-Za-z_-]+:\\|styles")
-         (bp-property-regex-alt "\\[[=A-Za-z_-]+\\]")
-         (bp-namespace-regex "\\(\\w+\\)\\.")
-         (bp-class-regex "[[:upper:]]\\w+"))
-    `((,bp-keywords-regex . font-lock-keyword-face)
-      (,bp-signal-function-regex . '(1 font-lock-function-name-face))
-      (,bp-signal-name-regex . '(1 font-lock-variable-name-face))
-      (,bp-property-regex . font-lock-variable-name-face)
-      (,bp-property-regex-alt . font-lock-variable-name-face)
-      (,bp-starting-dot . font-lock-keyword-face)
-      (,bp-signal-arrow . font-lock-keyword-face)
-      (,bp-constants-regex . font-lock-constant-face)
-      (,bp-class-regex . font-lock-type-face)
-      (,bp-namespace-regex . '(1 font-lock-type-face)))))
+             ;; turn those into regexes
+             (bp-keywords-regex (regexp-opt bp-keywords 'symbols))
+             (bp-constants-regex (regexp-opt bp-constants 'symbols))
+             ;; Define some custom ones
+             (bp-starting-dot "^\\.")
+             (bp-signal-arrow "=>")
+             (bp-signal-function-regex "\\([[:alnum:]:_-]+\\)()")
+             (bp-signal-name-regex "\\([[:alpha:]_-]+\\(::[[:alpha:]_-]+\\)?\\)[[:space:]]+=>")
+             (bp-property-regex "[A-Za-z_-]+:\\|styles")
+             (bp-property-regex-alt "\\[[=A-Za-z_-]+\\]")
+             (bp-namespace-regex "\\(\\w+\\)\\.")
+             (bp-class-regex "[[:upper:]]\\w+"))
+        `((,bp-keywords-regex . font-lock-keyword-face)
+          (,bp-signal-function-regex . '(1 font-lock-function-name-face))
+          (,bp-signal-name-regex . '(1 font-lock-variable-name-face))
+          (,bp-property-regex . font-lock-variable-name-face)
+          (,bp-property-regex-alt . font-lock-variable-name-face)
+          (,bp-starting-dot . font-lock-keyword-face)
+          (,bp-signal-arrow . font-lock-keyword-face)
+          (,bp-constants-regex . font-lock-constant-face)
+          (,bp-class-regex . font-lock-type-face)
+          (,bp-namespace-regex . '(1 font-lock-type-face)))))
 
 ;;;###autoload
 (define-derived-mode blueprint-mode prog-mode "Blueprint"
