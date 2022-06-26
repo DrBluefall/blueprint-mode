@@ -86,7 +86,9 @@
 ;;;###autoload
 (define-derived-mode blueprint-mode prog-mode "Blueprint"
   "Major mode for Blueprint Compiler files."
-  (setq-local font-lock-defaults '(blueprint--font-lock-defaults))
+  (setq-local font-lock-defaults '(blueprint--font-lock-defaults)
+              comment-use-syntax t
+              comment-start "// ")
   (set-syntax-table blueprint-mode-syntax-table))
 
 ;;;###autoload
