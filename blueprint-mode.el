@@ -19,9 +19,9 @@
 ;; Maintainer: Alexander Bisono <sbisonol@gmail.com>
 ;; Created: May 24, 2022
 ;; Modified: June 25, 2022
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Homepage: https://github.com/drbluefall/blueprint-mode
-;; Package-Requires: ((emacs "24.3") (lsp-mode "8.0.0"))
+;; Package-Requires: ((emacs "24.3"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -30,9 +30,6 @@
 ;; This file provides support and LSP integration for `.blp' files, used with the Blueprint Compiler.
 ;;
 ;;; Code:
-
-(require 'lsp)
-
 
 (defvar blueprint-mode-syntax-table nil)
 (setq blueprint-mode-syntax-table
@@ -91,15 +88,28 @@
               comment-start "// ")
   (set-syntax-table blueprint-mode-syntax-table))
 
+(defun blueprint-enable-lsp-support ()
+  "Setup `lsp-mode' support for `blueprint-mode'.
+
+NOTE: If the feature `lsp' is not present and `lsp-mode' cannot
+be loaded, it is a no-op."
+
+  (require 'lsp nil t)
+  (when (featurep 'lsp)
+    (add-to-list 'auto-mode-alist '("\\.blp\\'" . blueprint-mode))
+
+    (add-to-list 'lsp-language-id-configuration '(blueprint-mode . "blueprint-compiler"))
+
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("blueprint-compiler" "lsp"))
+                      :activation-fn (lsp-activate-on "blueprint-compiler")
+                      :server-id 'blueprint-compiler))
+
+    (add-hook 'blueprint-mode-hook #'lsp)))
+
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.blp\\'" . blueprint-mode))
-
-(add-to-list 'lsp-language-id-configuration '(blueprint-mode . "blueprint-compiler"))
-
-(lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection '("blueprint-compiler" "lsp"))
-                  :activation-fn (lsp-activate-on "blueprint-compiler")
-                  :server-id 'blueprint-compiler))
+(when (featurep 'lsp)
+  (blueprint-enable-lsp-support)) ; automatically enable LSP support if LSP mode is already loaded.
 
 (provide 'blueprint-mode)
 ;;; blueprint-mode.el ends here
