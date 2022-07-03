@@ -85,7 +85,9 @@
   "Major mode for Blueprint Compiler files."
   (setq-local font-lock-defaults '(blueprint--font-lock-defaults)
               comment-use-syntax t
-              comment-start "// ")
+              comment-start "// "
+              mode-name "GTK+ Blueprint"
+              indent-line-function #'indent-to-left-margin)
   (set-syntax-table blueprint-mode-syntax-table))
 
 (defun blueprint-enable-lsp-support ()
