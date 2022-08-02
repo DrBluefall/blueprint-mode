@@ -18,8 +18,8 @@
 ;; Author: Alexander Bisono <sbisonol@gmail.com>
 ;; Maintainer: Alexander Bisono <sbisonol@gmail.com>
 ;; Created: May 24, 2022
-;; Modified: June 25, 2022
-;; Version: 0.1.3
+;; Modified: August 2, 2022
+;; Version: 0.1.4
 ;; Homepage: https://github.com/drbluefall/blueprint-mode
 ;; Package-Requires: ((emacs "24.3"))
 ;;
@@ -90,28 +90,15 @@
               indent-line-function #'indent-to-left-margin)
   (set-syntax-table blueprint-mode-syntax-table))
 
-(defun blueprint-enable-lsp-support ()
-  "Setup `lsp-mode' support for `blueprint-mode'.
-
-NOTE: If the feature `lsp' is not present and `lsp-mode' cannot
-be loaded, it is a no-op."
-
-  (require 'lsp nil t)
-  (when (featurep 'lsp)
-    (add-to-list 'auto-mode-alist '("\\.blp\\'" . blueprint-mode))
-
-    (add-to-list 'lsp-language-id-configuration '(blueprint-mode . "blueprint-compiler"))
-
-    (lsp-register-client
-     (make-lsp-client :new-connection (lsp-stdio-connection '("blueprint-compiler" "lsp"))
-                      :activation-fn (lsp-activate-on "blueprint-compiler")
-                      :server-id 'blueprint-compiler))
-
-    (add-hook 'blueprint-mode-hook #'lsp)))
-
 ;;;###autoload
-(when (featurep 'lsp)
-  (blueprint-enable-lsp-support)) ; automatically enable LSP support if LSP mode is already loaded.
+(add-to-list 'auto-mode-alist '("\\.blp\\'" . blueprint-mode))
+
+(defun blueprint-enable-lsp-support ()
+  "Setup `lsp-mode' integration."
+  (declare (obsolete "This function has been supersceded by the `lsp-blueprint' module.
+Currently, this function is a wrapper around a `require' call to
+`lsp-blueprint', but it is recommended to `require' it directly." "0.1.4"))
+  (require 'lsp-blueprint))
 
 (provide 'blueprint-mode)
 ;;; blueprint-mode.el ends here
