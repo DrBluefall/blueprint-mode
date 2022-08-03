@@ -19,6 +19,9 @@ With `straight.el`:
                      :repo "DrBluefall/blueprint-mode"))
 ```
 
+If you use [LSP Mode](https://emacs-lsp.github.io/lsp-mode/), I recommend making
+sure to load the LSP integration with `(require 'lsp-blueprint)`.
+
 # Contributing
 
 If you want to work on `blueprint-mode`, I advise that you clone 2 additional
@@ -29,6 +32,11 @@ repositories:
 
 The latter has blueprint files from projects in the wild, which could prove
 useful for testing any features you intend to implement in `blueprint-mode`.
+
+Speaking of testing, I suggest you test any changes you make to `blueprint-mode`
+under `emacs -Q`. For `lsp-blueprint` specificially, there is a `setup-test.el` file in the repository that you can use to install `lsp-mode` automatically from MELPA Stable.
+
+TL;DR: `emacs -Q -l blueprint-mode.el [-l setup-test.el -l lsp-blueprint.el]`
 
 # LICENSE
 
