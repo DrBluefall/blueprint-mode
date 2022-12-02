@@ -31,6 +31,15 @@
 ;;
 ;;; Code:
 
+(defgroup blueprint nil
+  "GTK Blueprint Compiler."
+  :link '(url-link "https://gitlab.gnome.org/jwestman/blueprint-compiler"))
+
+(defcustom blueprint-tab-width 2
+  "Blueprint tab width."
+  :group 'blueprint
+  :type 'number)
+
 (defvar blueprint-mode-syntax-table nil)
 (setq blueprint-mode-syntax-table
       (let ((st (make-syntax-table prog-mode-syntax-table)))
@@ -80,6 +89,51 @@
           (,bp-class-regex . font-lock-type-face)
           (,bp-namespace-regex . '(1 font-lock-type-face)))))
 
+(defun blueprint--line-starts-with-close-paren ()
+  (save-excursion
+    (beginning-of-line-text)
+    (let ((char (char-after)))
+      (or (char-equal char ?})
+          (char-equal char ?\])))))
+
+(defun blueprint--line-indentation ()
+  "Returns how many indentation level the current line add or
+remove"
+  (let* ((start (line-beginning-position))
+         (end (line-end-position))
+         (open-parens (count-matches "{" start end))
+         (open-parens (+ open-parens (count-matches "\\[" start end)))
+         (close-parens (count-matches "}" start end))
+         (close-parens (+ close-parens (count-matches "\\]" start end)))
+         (close-parens (if (blueprint--line-starts-with-close-paren)
+                           (1- close-parens)
+                         close-parens)))
+    (- open-parens close-parens)))
+
+(defun blueprint--current-line-empty-p ()
+  (save-excursion
+    (beginning-of-line)
+    (looking-at-p "[[:blank:]]*$")))
+
+(defun blueprint--prev-line-indentation ()
+  "Returns the indentation level of previous line"
+  (save-excursion
+    (if (= (line-number-at-pos) 1)
+        0
+      (previous-line)
+      (if (blueprint--current-line-empty-p)
+          (blueprint--prev-line-indentation)
+        (+ (current-indentation) (* blueprint-tab-width (blueprint--line-indentation)))))))
+
+(defun blueprint--indent-function ()
+  "Indent function"
+  (if (= (line-number-at-pos) 1)
+      0
+    (let ((level (if (blueprint--line-starts-with-close-paren)
+                     (- blueprint-tab-width)
+                   0)))
+      (indent-line-to (+ level (blueprint--prev-line-indentation))))))
+
 ;;;###autoload
 (define-derived-mode blueprint-mode prog-mode "Blueprint"
   "Major mode for Blueprint Compiler files."
@@ -87,7 +141,7 @@
               comment-use-syntax t
               comment-start "// "
               mode-name "GTK+ Blueprint"
-              indent-line-function #'indent-to-left-margin)
+              indent-line-function #'blueprint--indent-function)
   (set-syntax-table blueprint-mode-syntax-table))
 
 ;;;###autoload
