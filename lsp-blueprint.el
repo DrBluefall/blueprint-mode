@@ -44,7 +44,7 @@
 (defun lsp-blueprint--server-cmd ()
   "Generate the command to invoke the server."
   (let ((cmd nil))
-    (push (file-truename lsp-blueprint-compiler-executable) cmd)
+    (push lsp-blueprint-compiler-executable cmd)
     (push "lsp" cmd)
     (when lsp-blueprint-compiler-logpath
       (push "--logfile" cmd)
